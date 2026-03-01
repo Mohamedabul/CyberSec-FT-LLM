@@ -1,8 +1,8 @@
 """
 model_loader_unsloth.py
 -----------------------
-Loads Phi-3.5-mini-Instruct using Unsloth's FastLanguageModel.
-~2x faster loading, 60% less VRAM than standard HuggingFace.
+Loads model using Unsloth's FastLanguageModel.
+2x faster loading, 60% less VRAM than standard HuggingFace.
 For use in Google Colab / Linux environments.
 """
 
@@ -11,6 +11,12 @@ from pathlib import Path
 
 # Unsloth must be installed: pip install unsloth
 from unsloth import FastLanguageModel
+
+# Qwen2.5 LoRA target modules (attention + MLP layers)
+QWEN_TARGET_MODULES = [
+    "q_proj", "k_proj", "v_proj", "o_proj",   # Attention
+    "gate_proj", "up_proj", "down_proj",        # MLP
+]
 
 
 def load_model_and_tokenizer(cfg: dict):
@@ -21,7 +27,7 @@ def load_model_and_tokenizer(cfg: dict):
         cfg: merged config dict with keys: model, quantization, lora
 
     Returns:
-        (model, tokenizer) tuple — model has LoRA adapters attached
+        (model, tokenizer) tuple with LoRA adapters attached
     """
     mc = cfg["model"]
     qc = cfg["quantization"]
@@ -32,19 +38,20 @@ def load_model_and_tokenizer(cfg: dict):
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name=mc["name"],
         max_seq_length=mc.get("max_seq_length", 512),
-        dtype=None,                         # Auto-detect (bfloat16 on Ampere+)
+        dtype=None,                          # Auto-detect (bfloat16 on Ampere+)
         load_in_4bit=qc["load_in_4bit"],
         trust_remote_code=mc.get("trust_remote_code", True),
     )
 
-    # Attach LoRA adapters (Unsloth's optimized version)
+    # Attach LoRA adapters
+    # NOTE: lora_dropout MUST be 0 for Unsloth fast QKV/O/MLP patching
     model = FastLanguageModel.get_peft_model(
         model,
         r=lc["r"],
         lora_alpha=lc["lora_alpha"],
-        lora_dropout=lc["lora_dropout"],
+        lora_dropout=lc["lora_dropout"],     # Must be 0.0 for Unsloth fast mode
         bias=lc["bias"],
-        target_modules="all-linear",        # Auto-detect correct layers for Phi-3.5
+        target_modules=QWEN_TARGET_MODULES,
         use_gradient_checkpointing="unsloth",
         random_state=42,
         use_rslora=False,
@@ -58,7 +65,7 @@ def load_model_and_tokenizer(cfg: dict):
 
 
 def load_for_inference(adapter_dir: str, max_seq_length: int = 512):
-    """Load fine-tuned model for inference (Unsloth inference mode)."""
+    """Load fine-tuned model for inference (Unsloth 2x faster mode)."""
     print(f"[Unsloth] Loading adapter for inference: {adapter_dir}")
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name=adapter_dir,
@@ -66,5 +73,5 @@ def load_for_inference(adapter_dir: str, max_seq_length: int = 512):
         dtype=None,
         load_in_4bit=True,
     )
-    FastLanguageModel.for_inference(model)   # Enable 2x faster inference
+    FastLanguageModel.for_inference(model)
     return model, tokenizer
