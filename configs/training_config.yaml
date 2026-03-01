@@ -1,0 +1,39 @@
+# ─────────────────────────────────────────────────────────
+# training_config.yaml
+# Training hyperparameters for both local and Colab runs
+# ─────────────────────────────────────────────────────────
+
+# ── Common settings (shared by local + unsloth) ───────────
+common:
+  num_train_epochs:             1
+  learning_rate:                2.0e-4
+  lr_scheduler_type:            "cosine"
+  warmup_steps:                 100
+  weight_decay:                 0.01
+  gradient_checkpointing:       true
+  logging_steps:                25
+  save_steps:                   200
+  eval_steps:                   200
+  save_total_limit:             3
+  load_best_model_at_end:       true
+  report_to:                    "none"   # "wandb" for experiment tracking
+  seed:                         42
+
+# ── Local (Windows, HuggingFace + TRL) ────────────────────
+local:
+  per_device_train_batch_size:  4
+  gradient_accumulation_steps:  4        # Effective batch = 16
+  bf16:                         true
+  fp16:                         false
+  optim:                        "paged_adamw_8bit"
+  output_dir:                   "models/phi35-security/adapter"
+
+# ── Colab (Unsloth, faster) ───────────────────────────────
+colab:
+  per_device_train_batch_size:  2
+  gradient_accumulation_steps:  8        # Effective batch = 16
+  bf16:                         true
+  fp16:                         false
+  optim:                        "adamw_8bit"
+  output_dir:                   "/content/drive/MyDrive/CS_FT/models/adapter"
+  dataset_path:                 "/content/drive/MyDrive/CS_FT/dataset"

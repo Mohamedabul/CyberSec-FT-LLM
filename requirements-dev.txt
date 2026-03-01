@@ -1,0 +1,21 @@
+# Formatting
+black
+ruff
+
+# Testing
+pytest
+pytest-cov
+
+# Type Checking
+mypy
+
+# Notebook
+ipykernel
+jupyter
+
+# Pre-commit hooks
+pre-commit
+
+# Profiling
+line-profiler
+memory-profiler

@@ -1,0 +1,72 @@
+# ============================
+# Core ML Framework
+# ============================
+
+# Install PyTorch with CUDA (Windows):
+# pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+
+torch
+torchvision
+torchaudio
+
+transformers>=4.45.0
+datasets>=2.18.0
+accelerate>=0.28.0
+peft>=0.10.0
+trl>=0.9.0
+
+# ============================
+# QLoRA Quantization
+# ============================
+
+# Windows: pip install bitsandbytes --index-url https://huggingface.github.io/bitsandbytes-windows-wheels/
+# Linux/Colab: pip install bitsandbytes
+bitsandbytes>=0.43.0
+
+# ============================
+# Unsloth (Google Colab / Linux ONLY)
+# ============================
+
+# DO NOT install on Windows — requires Triton (Linux only)
+# In Colab: pip install unsloth
+# unsloth
+
+# ============================
+# Data Processing
+# ============================
+
+numpy
+pandas
+scikit-learn
+tqdm
+pyyaml
+requests
+
+# ============================
+# Validation & Schema
+# ============================
+
+pydantic>=2.0.0
+jsonschema
+
+# ============================
+# API Deployment
+# ============================
+
+fastapi
+uvicorn
+
+# ============================
+# Experiment Tracking (Optional)
+# ============================
+
+# wandb
+# mlflow
+
+# ============================
+# Visualization / Evaluation
+# ============================
+
+matplotlib
+seaborn
+rouge-score

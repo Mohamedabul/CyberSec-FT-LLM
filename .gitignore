@@ -1,0 +1,51 @@
+# ─── Python ───────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ─── Virtual Environments ─────────────────────────────────
+venv/
+.venv/
+env/
+.env
+
+# ─── Large Data — DO NOT PUSH TO GITHUB ──────────────────
+raw_data/
+processed_data/
+dataset/
+
+# ─── Model Weights — DO NOT PUSH ──────────────────────────
+models/
+
+# ─── Jupyter ──────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ─── IDE / OS ─────────────────────────────────────────────
+.vscode/
+.idea/
+*.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Logs / Temp ──────────────────────────────────────────
+*.log
+parser_log.txt
+runs/
+wandb/
+mlruns/
+.cache/
+
+# ─── HuggingFace cache ────────────────────────────────────
+.huggingface/
+
+# ─── Secrets ──────────────────────────────────────────────
+.env
+*.key
+secrets.yaml

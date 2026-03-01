@@ -1,0 +1,49 @@
+# ─────────────────────────────────────────────────────────
+# data_config.yaml
+# Dataset paths and preprocessing settings
+# ─────────────────────────────────────────────────────────
+
+paths:
+  raw:
+    nvd_dir:      "raw_data/nvd"
+    mitre_dir:    "raw_data/mitre"
+    exploitdb_dir: "raw_data/exploitdb"
+
+  processed:
+    cve_records:      "processed_data/cve_records.jsonl"
+    cwe_lookup:       "processed_data/cwe_lookup.json"
+    exploit_records:  "processed_data/exploit_records.jsonl"
+    linked_records:   "processed_data/linked_records.jsonl"
+    exploit_only:     "processed_data/exploit_only.jsonl"
+
+  dataset:
+    train: "dataset/train.jsonl"
+    val:   "dataset/val.jsonl"
+    test:  "dataset/test.jsonl"
+    type_a: "dataset/type_a.jsonl"
+    type_b: "dataset/type_b.jsonl"
+    type_c: "dataset/type_c.jsonl"
+
+preprocessing:
+  min_code_len:     50        # Minimum exploit code length to include
+  max_file_bytes:   512000    # Skip exploit files > 500KB
+  max_code_len:     3000      # Truncate exploit code in prompts
+  max_records_b:    10000     # Cap on Type B samples
+  exploit_limit:    15000     # Max exploit_records.jsonl size
+
+split:
+  train_ratio: 0.80
+  val_ratio:   0.10
+  # test gets remainder (0.10)
+  seed: 42
+
+sources:
+  nvd:
+    start_year: 2020
+    end_year:   2025
+    api_base:   "https://services.nvd.nist.gov/rest/json/cves/2.0"
+    results_per_page: 2000
+  mitre:
+    url: "https://cwe.mitre.org/data/xml/cwec_latest.xml.zip"
+  exploitdb:
+    repo: "https://gitlab.com/exploit-database/exploitdb.git"
