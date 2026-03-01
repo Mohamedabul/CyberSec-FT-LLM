@@ -4,11 +4,10 @@
 # ─────────────────────────────────────────────────────────
 
 base_model:
-  name:               "microsoft/Phi-3.5-mini-instruct"
-  hf_id:              "microsoft/Phi-3.5-mini-instruct"
+  name:               "Qwen/Qwen2.5-3B-Instruct"
+  hf_id:              "Qwen/Qwen2.5-3B-Instruct"
   trust_remote_code:  true
-  attn_implementation: "sdpa"   # sdpa = PyTorch native (works on Windows + Colab)
-                                 # Use "flash_attention_2" on Linux/Colab for max speed
+  attn_implementation: "sdpa"
 
 tokenizer:
   padding_side:    "right"
@@ -44,5 +43,5 @@ inference:
   do_sample:          true
 
 save:
-  adapter_dir: "models/phi35-security/adapter"
-  merged_dir:  "models/phi35-security/merged"
+  adapter_dir: "models/qwen25-3b-security/adapter"
+  merged_dir:  "models/qwen25-3b-security/merged"

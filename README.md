@@ -1,6 +1,6 @@
 # CyberSec-FT — LLM Fine-Tuning for Security Analysis
 
-> **Fine-tuning Phi-3.5-mini-Instruct using QLoRA on CVE, CWE, and Exploit-DB data for cybersecurity analysis tasks.**
+> **Fine-tuning Qwen2.5-3B-Instruct using QLoRA on CVE, CWE, and Exploit-DB data for cybersecurity analysis tasks.**
 
 ---
 
@@ -11,7 +11,7 @@ This project builds a fine-tuned LLM capable of:
 - **Exploit Explanation** — Technical breakdown of exploit code
 - **Attack Chain Reasoning** — Combined CVE + Exploit → step-by-step attack analysis
 
-**Model**: `microsoft/Phi-3.5-mini-Instruct` (3.8B params, 4-bit QLoRA)  
+**Model**: `Qwen/Qwen2.5-3B-Instruct` (3B params, 4-bit QLoRA)  
 **Dataset**: 187,763 instruction samples across 3 types
 
 ---
@@ -125,7 +125,7 @@ Follow the cells — it handles setup, Drive mounting, and training automaticall
 
 | Setting | Value |
 |---------|-------|
-| Base Model | Phi-3.5-mini-Instruct (3.8B) |
+| Base Model | Qwen2.5-3B-Instruct (3B) |
 | Quantization | 4-bit NF4 (QLoRA) |
 | LoRA rank | r=16, alpha=32 |
 | Seq Length | 512 tokens |

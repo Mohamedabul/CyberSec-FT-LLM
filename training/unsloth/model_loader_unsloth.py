@@ -44,8 +44,8 @@ def load_model_and_tokenizer(cfg: dict):
         lora_alpha=lc["lora_alpha"],
         lora_dropout=lc["lora_dropout"],
         bias=lc["bias"],
-        target_modules=lc["target_modules"],
-        use_gradient_checkpointing="unsloth",   # Unsloth's memory-efficient version
+        target_modules="all-linear",        # Auto-detect correct layers for Phi-3.5
+        use_gradient_checkpointing="unsloth",
         random_state=42,
         use_rslora=False,
     )

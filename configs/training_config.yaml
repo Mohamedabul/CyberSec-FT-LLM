@@ -26,7 +26,7 @@ local:
   bf16:                         true
   fp16:                         false
   optim:                        "paged_adamw_8bit"
-  output_dir:                   "models/phi35-security/adapter"
+  output_dir:                   "models/qwen25-3b-security/adapter"
 
 # ── Colab (Unsloth, faster) ───────────────────────────────
 colab:

@@ -4,7 +4,7 @@
 # ─────────────────────────────────────────────────────────
 
 model:
-  name: "microsoft/Phi-3.5-mini-instruct"
+  name: "Qwen/Qwen2.5-3B-Instruct"
   max_seq_length: 512           # Shorter = faster + fits more in batch
   trust_remote_code: true
 
@@ -55,5 +55,5 @@ data:
   test_file:  "dataset/test.jsonl"
 
 save:
-  adapter_dir: "models/phi35-security/adapter"
-  merged_dir:  "models/phi35-security/merged"
+  adapter_dir: "models/qwen25-3b-security/adapter"
+  merged_dir:  "models/qwen25-3b-security/merged"
