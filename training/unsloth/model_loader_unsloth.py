@@ -43,15 +43,34 @@ def load_model_and_tokenizer(cfg: dict):
         trust_remote_code=mc.get("trust_remote_code", True),
     )
 
-    # Attach LoRA adapters
-    # NOTE: lora_dropout MUST be 0 for Unsloth fast QKV/O/MLP patching
+    # ── Resolve target_modules ────────────────────────────────────────────────
+    # Guard: YAML serialization or notebook hardcoding can produce a plain
+    # string instead of a list (e.g. "linear"). PEFT then iterates characters
+    # → ValueError: Target modules {'l','i','n','e','a','r','-'} not found.
+    target_modules = lc.get("target_modules", QWEN_TARGET_MODULES)
+    if not isinstance(target_modules, list):
+        print(
+            f"[Unsloth] WARNING: target_modules was {type(target_modules).__name__!r} "
+            f"value={target_modules!r} — must be a list. "
+            f"Falling back to default Qwen2.5 modules."
+        )
+        target_modules = QWEN_TARGET_MODULES
+    print(f"[Unsloth] LoRA target modules: {target_modules}")
+
+    # ── Enforce lora_dropout = 0.0 for Unsloth fast patching ─────────────────
+    lora_dropout = lc.get("lora_dropout", 0.0)
+    if lora_dropout != 0.0:
+        print(f"[Unsloth] WARNING: lora_dropout={lora_dropout} overridden to 0.0 (required for Unsloth fast QKV/O/MLP patching).")
+        lora_dropout = 0.0
+
+    # Attach LoRA adapters (Unsloth's optimized version)
     model = FastLanguageModel.get_peft_model(
         model,
         r=lc["r"],
         lora_alpha=lc["lora_alpha"],
-        lora_dropout=lc["lora_dropout"],     # Must be 0.0 for Unsloth fast mode
+        lora_dropout=lora_dropout,
         bias=lc["bias"],
-        target_modules=QWEN_TARGET_MODULES,
+        target_modules=target_modules,
         use_gradient_checkpointing="unsloth",
         random_state=42,
         use_rslora=False,
