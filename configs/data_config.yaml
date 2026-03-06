@@ -28,8 +28,8 @@ preprocessing:
   min_code_len:     50        # Minimum exploit code length to include
   max_file_bytes:   512000    # Skip exploit files > 500KB
   max_code_len:     3000      # Truncate exploit code in prompts
-  max_records_b:    10000     # Cap on Type B samples
-  exploit_limit:    15000     # Max exploit_records.jsonl size
+  max_records_b:    9999999   # Cap on Type B samples
+  exploit_limit:    9999999   # Max exploit_records.jsonl size
 
 split:
   train_ratio: 0.80

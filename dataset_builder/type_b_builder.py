@@ -13,7 +13,7 @@ EXPLOIT_ONLY = Path(__file__).resolve().parents[1] / "processed_data" / "exploit
 OUT_PATH     = Path(__file__).resolve().parents[1] / "dataset" / "type_b.jsonl"
 
 MAX_CODE_LEN  = 3000   # Truncate very long exploit codes
-MAX_RECORDS   = 10000  # Cap Type B samples
+MAX_RECORDS   = float('inf')  # Cap Type B samples
 
 INSTRUCTION = (
     "You are a reverse engineering and malware analysis expert. "
